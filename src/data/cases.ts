@@ -1,0 +1,532 @@
+import { LccaProject } from '../types/lcca';
+
+export const CASE_STUDIES: LccaProject[] = [
+  {
+    id: 'sea-bridge',
+    name: '重大基础设施跨海特大桥工程',
+    category: '交通基建',
+    industry: '土木水利与国家路网',
+    description: '高初始 CAPEX (超300亿) 与超长设计基准期 (100年)。在强海洋高盐雾腐蚀环境下，中后期防腐涂装与斜拉索定期大修极其高昂，折现率微小波动对全生命周期现值具有剧烈杠杆放大效应。',
+    iconName: 'Bridge',
+    lifetime: 100,
+    discountRate: 0.04, // 4% public infrastructure social discount rate
+    inflationRate: 0.02,
+    salvageValue: 50000, // 5亿元
+    stages: {
+      planning: {
+        id: 'planning',
+        name: '前期立项与海洋勘察',
+        nameEn: 'Planning & Feasibility',
+        directCost: 45000, // 4.5亿元
+        indirectCost: 15000,
+        description: '海洋水文地质测绘、通航孔径论证、环境影响评价与国家发改委核准。',
+        startYear: 0,
+        endYear: 1,
+      },
+      design: {
+        id: 'design',
+        name: '工程勘测与深度方案设计',
+        nameEn: 'Engineering & Design',
+        directCost: 85000, // 8.5亿元
+        indirectCost: 25000,
+        description: '抗台风抗震风洞试验、深水人工岛抗冲刷结构计算、BIM全生命周期协同设计。',
+        startYear: 1,
+        endYear: 2,
+      },
+      capex: {
+        id: 'capex',
+        name: '主体结构施工与安装建设',
+        nameEn: 'Construction / CAPEX',
+        directCost: 3200000, // 320亿元
+        indirectCost: 350000, // 35亿元
+        description: '沉管隧道安装、斜拉主桥塔身浇筑、钢箱梁架设、桥面铺装与机电监控系统。',
+        startYear: 2,
+        endYear: 7,
+      },
+      opex: {
+        id: 'opex',
+        name: '日常营运与养护管理',
+        nameEn: 'Operation / OPEX',
+        directCost: 18000, // 每年1.8亿元
+        indirectCost: 6000,  // 每年0.6亿元
+        description: '收费与治超监控、海面巡航救援、除冰除雪日常清障、电力照明能耗支出。',
+        startYear: 8,
+        endYear: 100,
+        annualGrowthRate: 0.02,
+      },
+      maint: {
+        id: 'maint',
+        name: '定期防腐大修与斜拉索翻新',
+        nameEn: 'Maintenance & Overhaul',
+        directCost: 42000, // 每年均摊约4.2亿元 (含每15年周期性大修)
+        indirectCost: 8000,
+        description: '高盐雾钢箱梁防腐喷砂涂装、斜拉索索力张拉监测与换索、支座更换及抗震减震器大修。',
+        startYear: 8,
+        endYear: 100,
+        annualGrowthRate: 0.025,
+      },
+      decom: {
+        id: 'decom',
+        name: '超期服役退役或结构拆除回收',
+        nameEn: 'Decommissioning',
+        directCost: 280000, // 28亿元
+        indirectCost: 60000,
+        description: '水下沉管安全封堵或拆解、钢箱梁拆卸回炉、海上通航水道水文地貌生态修复。',
+        startYear: 100,
+        endYear: 100,
+      },
+    },
+    domainParams: [
+      { label: '设计基准期', value: 100, unit: '年' },
+      { label: '初始总建设投资', value: '355.0', unit: '亿元' },
+      { label: '年均运维支出 (名义)', value: '7.4', unit: '亿元/年' },
+      { label: '社会基准折现率', value: '4.0', unit: '%' },
+    ],
+    caseInsights: {
+      capexOpexTradeoff: '前期在高性能耐候钢与硅烷浸渍混凝土上的增量投资（约8%），可使每15年的防腐大修周期拉长至25年，全寿命节省维护现值超60亿元。',
+      discountSensitivityComment: '当折现率由 3% 上升至 6% 时，百年的运维现金流折现现值衰减近 65%，使决策者极易低估后半程的维护重担。',
+      hiddenTrapWarning: '切勿忽略深海盐雾导致斜拉索与支座的非线性加速疲劳老化，后期突发非计划性抢修费用常是计划预算的3-5倍。',
+      decisionRecommendation: '建议设立跨海大桥全寿命专项大修基金（设立信托年金池），以平滑每15~20年周期性出现的集中换索与防腐大修峰值压力。',
+    },
+  },
+  {
+    id: 'green-datacenter',
+    name: '国家级新能源绿色算力数据中心',
+    category: '算力基础设施',
+    industry: '新一代数字经济与绿色算力',
+    description: '典型“轻 CAPEX、极重 OPEX”的现代高科技系统。年耗电费用占据全生命周期总成本 65% 以上，PUE 效率从 1.4 优化到 1.15 对生命周期成本具有决定性影响，同时面临 IT 硬件 3~4 年的快节奏汰换更新。',
+    iconName: 'Server',
+    lifetime: 15,
+    discountRate: 0.07, // 7% corporate discount rate
+    inflationRate: 0.025,
+    salvageValue: 25000, // 2.5亿元
+    stages: {
+      planning: {
+        id: 'planning',
+        name: '能评规划与算力负荷选址',
+        nameEn: 'Planning & Feasibility',
+        directCost: 6000,
+        indirectCost: 2000,
+        description: '绿电指标获取、水资源与PUE指标严苛评估、跨区域超低时延光纤链路规划。',
+        startYear: 0,
+        endYear: 1,
+      },
+      design: {
+        id: 'design',
+        name: '液冷架构与高密度供电设计',
+        nameEn: 'Engineering & Design',
+        directCost: 15000,
+        indirectCost: 4000,
+        description: '浸没式/冷板式液冷微模块流场仿真、2N+1 UPS容错配电拓扑、余热回收暖通设计。',
+        startYear: 1,
+        endYear: 2,
+      },
+      capex: {
+        id: 'capex',
+        name: '机房土建、机电与首期算力底座',
+        nameEn: 'Construction / CAPEX',
+        directCost: 280000, // 28亿元
+        indirectCost: 35000,
+        description: '数据中心园区厂房、柴发机组、冷水机组、首批高密智算GPU机柜与网络交换集群。',
+        startYear: 2,
+        endYear: 3,
+      },
+      opex: {
+        id: 'opex',
+        name: '算力电费与绿电长期采购 (PPA)',
+        nameEn: 'Operation / OPEX',
+        directCost: 68000, // 每年电费约6.8亿元
+        indirectCost: 8000,  // 运营人力与带宽
+        description: '智算集群全天候电力消耗（含IT芯片功耗与散热制冷损耗）、园区物业与光纤裸纤租赁。',
+        startYear: 3,
+        endYear: 15,
+        annualGrowthRate: 0.035, // 电力与能源价格波动预期
+      },
+      maint: {
+        id: 'maint',
+        name: '服务器分批重置汰换与空调维保',
+        nameEn: 'Maintenance & Overhaul',
+        directCost: 32000, // 每年平摊3.2亿元 (每3~4年芯片换代重置)
+        indirectCost: 5000,
+        description: 'GPU算力模组老化汰换、液冷循环介质过滤更换、UPS电池组与柴油发电机定期测试维护。',
+        startYear: 3,
+        endYear: 15,
+        annualGrowthRate: 0.02,
+      },
+      decom: {
+        id: 'decom',
+        name: '危废介质环保处置与设备残值脱网',
+        nameEn: 'Decommissioning',
+        directCost: 18000,
+        indirectCost: 5000,
+        description: '氟化液无害化回收中和、铅酸/锂电池危废环保转运、算力服务器存储介质涉密物理粉碎销毁。',
+        startYear: 15,
+        endYear: 15,
+      },
+    },
+    domainParams: [
+      { label: '机架规模', value: 8000, unit: '架' },
+      { label: '基准 PUE 目标', value: '1.15' },
+      { label: '年均耗电量', value: '11.2', unit: '亿度/年' },
+      { label: 'IT设备翻新周期', value: '3.5', unit: '年/轮' },
+    ],
+    caseInsights: {
+      capexOpexTradeoff: '初期投资增加 1.5 亿元引入两相浸没式液冷，将系统综合 PUE 从 1.38 压降至 1.12，每年节约电费高达 9,500 万元，不到 1.6 年即收回增量 CAPEX。',
+      discountSensitivityComment: '由于生命周期仅15年且电费支出高度前置，对电价波动的敏感度远远压倒对纯金融折现率的敏感度。',
+      hiddenTrapWarning: '忽视算力硬件“摩尔定律+功耗墙”带来的高频换代成本；若未将第4、8、12年算力模组翻新计入MAINT，将低估真实成本近40%。',
+      decisionRecommendation: '建议锁定 10 年期绿电直购 PPA 协议锁定电价上限，并将算力设备残值转售与二手降级利用纳入生命周期末期对冲策略。',
+    },
+  },
+  {
+    id: 'hsr-train',
+    name: '350km/h 标动高铁动车组采购与运营',
+    category: '高端装备制造',
+    industry: '轨道交通装备与列车运维',
+    description: '高端装备制造业的黄金标杆。车组全寿命周期 30 年中，日常检修与三/四/五级定期高级修 (MAINT) 的累计成本高达初始购置价格 (CAPEX) 的 2.5~3 倍，是典型的“买马容易养马难”。',
+    iconName: 'Train',
+    lifetime: 30,
+    discountRate: 0.05,
+    inflationRate: 0.02,
+    salvageValue: 12000, // 1.2亿元 (金属材料拆解残值)
+    stages: {
+      planning: {
+        id: 'planning',
+        name: '线路开行谱系与编组方案研究',
+        nameEn: 'Planning & Feasibility',
+        directCost: 2000,
+        indirectCost: 800,
+        description: '京沪/武广等黄金干线旅客流量OD矩阵分析、16节长编组与重联动车组技术经济匹配性研究。',
+        startYear: 0,
+        endYear: 1,
+      },
+      design: {
+        id: 'design',
+        name: '列车轻量化与转向架正向设计',
+        nameEn: 'Engineering & Design',
+        directCost: 8000,
+        indirectCost: 2500,
+        description: '空气动力学车头减阻仿真、永磁同步牵引系统设计、车体铝合金中空挤压型材拓扑优化。',
+        startYear: 1,
+        endYear: 2,
+      },
+      capex: {
+        id: 'capex',
+        name: '动车组整车制造与批量采购交付',
+        nameEn: 'Construction / CAPEX',
+        directCost: 175000, // 17.5亿元 (一组约1.7亿，批购10列标准组)
+        indirectCost: 12000,
+        description: '车体组焊、转向架装配、牵引变流器调试、车载ATP信号系统集成与型式试验验证。',
+        startYear: 2,
+        endYear: 3,
+      },
+      opex: {
+        id: 'opex',
+        name: '牵引能耗、行车人工与日常一二级修',
+        nameEn: 'Operation / OPEX',
+        directCost: 16500, // 每年1.65亿元
+        indirectCost: 3500,
+        description: '接触网牵引受电电费（运行千公里耗电）、乘务与随车机械师薪资、动车所夜间日常库检保洁。',
+        startYear: 3,
+        endYear: 30,
+        annualGrowthRate: 0.02,
+      },
+      maint: {
+        id: 'maint',
+        name: '三级修、四级修与五级厂修更新',
+        nameEn: 'Maintenance & Overhaul',
+        directCost: 22000, // 每年均摊约2.2亿元
+        indirectCost: 4000,
+        description: '走行公里达120万/240万/480万km对应三四五级修：轮对镟修、牵引电机彻底解体翻新、制动夹钳与减震器换新。',
+        startYear: 3,
+        endYear: 30,
+        annualGrowthRate: 0.025,
+      },
+      decom: {
+        id: 'decom',
+        name: '30年到期解体、铝合金回收与处置',
+        nameEn: 'Decommissioning',
+        directCost: 5000,
+        indirectCost: 1500,
+        description: '危险品制冷剂与废油脂环保提取、车体高纯度铝合金与铜线分选回收拆解、转向架铸件再制造评估。',
+        startYear: 30,
+        endYear: 30,
+      },
+    },
+    domainParams: [
+      { label: '车队编组数量', value: 10, unit: '标准列 (8编组)' },
+      { label: '年均运营里程', value: '45万', unit: '公里/列' },
+      { label: '全寿命大修倍率', value: '2.6', unit: '倍 CAPEX' },
+      { label: '设计服役寿命', value: 30, unit: '年' },
+    ],
+    caseInsights: {
+      capexOpexTradeoff: '采购阶段多投入 5% 选用碳化硅 (SiC) 功率器件与碳陶制动盘，可减轻簧下质量 20%，降低牵引能耗 7.5%，且轮对镟修周期从 30 万公里延长至 50 万公里。',
+      discountSensitivityComment: '维护费用均匀分布在 30 年中，第 15~20 年的五级厂修峰值受折现率影响明显，折现率越低越突显维护保障的重要性。',
+      hiddenTrapWarning: '低价竞标采购低可靠性零部件，在第 8 年集中爆发轴温误报或变流器绝缘击穿，导致动车线上非正常晚点罚款与召回损失。',
+      decisionRecommendation: '推行“修程修制优化 (PHM 状态修)”替代硬性周期修，基于实时振动感知数据动态预测轮轨磨耗，可减少 15% 冗余大修费用。',
+    },
+  },
+  {
+    id: 'nuclear-plant',
+    name: '三代+ 华龙一号百万千瓦级核电基地',
+    category: '清洁能源基荷',
+    industry: '核能工程与重大安全装备',
+    description: '具备极长建设周期 (6~7年)、60 年超长运行寿命以及极为特殊的末期退役与乏燃料环保处置成本 (Decommissioning)。折现公式使 60 年后的退役负债现值看似很小，实则隐藏重大代际财务风险。',
+    iconName: 'Atom',
+    lifetime: 60,
+    discountRate: 0.055,
+    inflationRate: 0.02,
+    salvageValue: 30000, // 3亿元
+    stages: {
+      planning: {
+        id: 'planning',
+        name: '厂址地震水文勘选与核安全环评',
+        nameEn: 'Planning & Feasibility',
+        directCost: 80000, // 8亿元
+        indirectCost: 35000,
+        description: '极地地质断裂带勘测、海啸设防基准验证、公众沟通听证与国家核安全局两阶段建造许可核发。',
+        startYear: 0,
+        endYear: 2,
+      },
+      design: {
+        id: 'design',
+        name: '核岛/常规岛三维一体化设计与安全壳仿真',
+        nameEn: 'Engineering & Design',
+        directCost: 150000, // 15亿元
+        indirectCost: 45000,
+        description: '双层安全壳抗大飞机撞击计算、非能动余热排出热工水力仿真、全厂严重事故管理规程制定。',
+        startYear: 2,
+        endYear: 4,
+      },
+      capex: {
+        id: 'capex',
+        name: '核反应堆土建浇筑、重容安装与冷热试',
+        nameEn: 'Construction / CAPEX',
+        directCost: 3600000, // 360亿元 (双机组)
+        indirectCost: 450000, // 45亿元
+        description: '核岛筏基首罐混凝土浇筑 (FCD)、压力容器与蒸汽发生器吊装、主管道焊接、装料前冷态/热态调试。',
+        startYear: 4,
+        endYear: 10,
+      },
+      opex: {
+        id: 'opex',
+        name: '核燃料装卸循环、重水补给与日常运行',
+        nameEn: 'Operation / OPEX',
+        directCost: 45000, // 每年4.5亿元
+        indirectCost: 12000,
+        description: '浓缩铀组件换料采购、化学容积控制系统硼水监测、全天候核安全保卫与持证操纵员团队薪酬。',
+        startYear: 10,
+        endYear: 60,
+        annualGrowthRate: 0.02,
+      },
+      maint: {
+        id: 'maint',
+        name: '18个月定期换料大修与主泵检修',
+        nameEn: 'Maintenance & Overhaul',
+        directCost: 35000, // 每年均摊3.5亿元
+        indirectCost: 8000,
+        description: '大修窗口期压力容器无损探伤、蒸汽发生器传热管涡流探伤、主冷却剂泵水力部件精密维修。',
+        startYear: 10,
+        endYear: 60,
+        annualGrowthRate: 0.022,
+      },
+      decom: {
+        id: 'decom',
+        name: '放射性去污、乏燃料终极地质处置与绿地恢复',
+        nameEn: 'Decommissioning',
+        directCost: 1100000, // 110亿元名义成本
+        indirectCost: 250000, // 25亿元
+        description: '反应堆本体放射性活化构件水下切割、中低放废料固化封存、深地质高放乏燃料处置库长期监测。',
+        startYear: 60,
+        endYear: 60,
+      },
+    },
+    domainParams: [
+      { label: '机组额定容量', value: '2 × 1200', unit: 'MW' },
+      { label: '建造工期', value: 6, unit: '年' },
+      { label: '名义退役处置准备金', value: '135.0', unit: '亿元' },
+      { label: '商业运营年限', value: 50, unit: '年 (总周期60年)' },
+    ],
+    caseInsights: {
+      capexOpexTradeoff: '增加模块化建造 (Open Top 工艺) 降低施工周期 8 个月，每年可提前回收上网电费近 45 亿元，极大摊薄建设期资金利息 (IDC)。',
+      discountSensitivityComment: '在 5.5% 折现率下，第 60 年的 135 亿元退役支出折现到第 0 年仅约 5.6 亿元！但若实际通胀超预期或未来核退役环保标准加码，资金缺口将由后代纳税人承担。',
+      hiddenTrapWarning: '忽视长期乏燃料后处理与深地质储存的技术不确定性风险，历史上诸多核电站退役实际超支超期高达 200% 以上。',
+      decisionRecommendation: '必须在发电电价中强制按每度电计提 0.026 元作为法定核退役信托基金，并采取保守抗通胀资产组合进行保值增值。',
+    },
+  },
+  {
+    id: 'smart-city-iot',
+    name: '智慧城市低功耗物联网感知终端迭代体系',
+    category: '数字化智慧系统',
+    industry: '物联网与智慧市政工程',
+    description: '高频技术迭代与电池寿命限制。终端设备硬件物理寿命与经济寿命脱节，需通过 EAC 最小化模型寻找在第 4 年、第 6 年或第 8 年的最佳批量替换周期 (Optimal Replacement Timing)。',
+    iconName: 'Cpu',
+    lifetime: 8,
+    discountRate: 0.08,
+    inflationRate: 0.02,
+    salvageValue: 1500, // 1500万元 (芯片与稀贵金属回收)
+    stages: {
+      planning: {
+        id: 'planning',
+        name: '城市物联专网拓扑与点位规约',
+        nameEn: 'Planning & Feasibility',
+        directCost: 1200,
+        indirectCost: 400,
+        description: '市政窨井盖、燃气管网漏水、智慧路灯杆微基站覆盖率与无线频段干扰频谱规划。',
+        startYear: 0,
+        endYear: 1,
+      },
+      design: {
+        id: 'design',
+        name: 'NB-IoT/Cat.1超低功耗射频协议优化',
+        nameEn: 'Engineering & Design',
+        directCost: 2800,
+        indirectCost: 800,
+        description: '休眠电流 < 5μA 芯片电源拓扑、IP68防水防爆封装外壳、设备端OTA固件差分升级协议。',
+        startYear: 1,
+        endYear: 2,
+      },
+      capex: {
+        id: 'capex',
+        name: '50万台感知终端生产与网格化部署',
+        nameEn: 'Construction / CAPEX',
+        directCost: 48000, // 4.8亿元
+        indirectCost: 7500,
+        description: '传感器批量SMT贴片采购、现场高空与地下狭窄空间人工安装挂表、基站配对网关联调。',
+        startYear: 2,
+        endYear: 3,
+      },
+      opex: {
+        id: 'opex',
+        name: '物联网SIM卡通信费与云平台租用',
+        nameEn: 'Operation / OPEX',
+        directCost: 4200, // 每年4200万元
+        indirectCost: 900,
+        description: '运营商NB-IoT年费流量池支出、云原生时序数据库与设备中台订阅成本、日常巡视人工。',
+        startYear: 3,
+        endYear: 8,
+        annualGrowthRate: -0.05, // 通信与云单价年年下降5%
+      },
+      maint: {
+        id: 'maint',
+        name: '电池耗尽上门换电与损坏节点修补',
+        nameEn: 'Maintenance & Overhaul',
+        directCost: 8500, // 每年8500万元 (随年限非线性陡增)
+        indirectCost: 1800,
+        description: '第4年起锂亚硫酰氯电池批量衰减引发登门更换人工成本暴增、暴雨雷击损坏节点维修。',
+        startYear: 3,
+        endYear: 8,
+        annualGrowthRate: 0.22, // 后期维护费用呈指数级激增！
+      },
+      decom: {
+        id: 'decom',
+        name: '失效节点全城回收与环保拆解',
+        nameEn: 'Decommissioning',
+        directCost: 3200,
+        indirectCost: 800,
+        description: '废弃锂电池危废合规收集转运、电路板贵金属无污染回收、注塑外壳再生降级造粒。',
+        startYear: 8,
+        endYear: 8,
+      },
+    },
+    domainParams: [
+      { label: '部署点位数量', value: '50万', unit: '个传感器' },
+      { label: '单设备采购均价', value: 960, unit: '元/套' },
+      { label: '后期上门换电人工', value: 180, unit: '元/次' },
+      { label: '推荐最佳替换周期', value: '5~6', unit: '年 (EAC极小值)' },
+    ],
+    caseInsights: {
+      capexOpexTradeoff: '初期选用支持低轨卫星增强与自取能能量收集微模块的芯片（成本增加18%），可使免维护待机从4年跃升至8年，避开昂贵的第5年全城上门换电潮。',
+      discountSensitivityComment: '短寿命项目折现影响较平缓，核心矛盾在于“边际维护成本激增 > 新一代硬件采购均等成本”的拐点决策。',
+      hiddenTrapWarning: '只看到第5年单台设备只花150元换电池，却未算全城散落点位登高或下井的巨大派单交通人工费，往往“修不如换”。',
+      decisionRecommendation: '在第 5 年末当 EAC 达到拐点时，果断实施整网整街区批量迭代，而非零星故障派工。',
+    },
+  },
+  {
+    id: 'green-building-retrofit',
+    name: '大型公共建筑超低能耗绿色近零碳改造',
+    category: '双碳与绿色建筑',
+    industry: '建筑节能与综合能源服务',
+    description: '典型的高初始改造 CAPEX 对赌 25 年长期运营节能减碳效益 (OPEX 锐减)。通过增量 LCCA、净现值与折现回收期，论证“绿色溢价”如何转化为持续运营竞争优势。',
+    iconName: 'Building',
+    lifetime: 25,
+    discountRate: 0.05,
+    inflationRate: 0.02,
+    salvageValue: 8000, // 8000万元
+    stages: {
+      planning: {
+        id: 'planning',
+        name: '建筑能耗审计与碳排足迹诊断',
+        nameEn: 'Planning & Feasibility',
+        directCost: 1500,
+        indirectCost: 500,
+        description: '红外热成像外立面热损失扫描、中央空调能效比 (COP) 实测、绿色建筑三星级改造目标认证。',
+        startYear: 0,
+        endYear: 1,
+      },
+      design: {
+        id: 'design',
+        name: 'BIM三维能耗模拟与被动式节能方案',
+        nameEn: 'Engineering & Design',
+        directCost: 3500,
+        indirectCost: 1000,
+        description: '遮阳一体化外幕墙节点热桥阻断计算、地源热泵打孔场群热平衡模拟、BIPV光伏幕墙电气拓扑。',
+        startYear: 1,
+        endYear: 2,
+      },
+      capex: {
+        id: 'capex',
+        name: '高效机房、光储直柔与高阻热围护改造',
+        nameEn: 'Construction / CAPEX',
+        directCost: 125000, // 12.5亿元
+        indirectCost: 16000,
+        description: '三玻两腔Low-E真空玻璃幕墙置换、磁悬浮无油变频冷水机组、屋顶分布式光伏与磷酸铁锂储能柜。',
+        startYear: 2,
+        endYear: 3,
+      },
+      opex: {
+        id: 'opex',
+        name: '大幅削减后的净购网电费与运维',
+        nameEn: 'Operation / OPEX',
+        directCost: 5200, // 原传统方案高达15800万元/年，现降至5200万元/年！每年净节约超1亿元
+        indirectCost: 1400,
+        description: '光储自发自用抵扣后电费、新风净化过滤系统电耗、楼宇能源管理系统 (EMS) 算法调优。',
+        startYear: 3,
+        endYear: 25,
+        annualGrowthRate: 0.03, // 传统电价与碳税上涨预期
+      },
+      maint: {
+        id: 'maint',
+        name: '光伏逆变器换新与地源热泵回灌维保',
+        nameEn: 'Maintenance & Overhaul',
+        directCost: 3800, // 每年均摊3800万元
+        indirectCost: 800,
+        description: '第10/20年光伏储能逆变器与电池模组更换、幕墙耐候密封胶条局部更换、水系统水质清洗除垢。',
+        startYear: 3,
+        endYear: 25,
+        annualGrowthRate: 0.02,
+      },
+      decom: {
+        id: 'decom',
+        name: '光伏组件退役回收与无机保温材料循环',
+        nameEn: 'Decommissioning',
+        directCost: 4500,
+        indirectCost: 1200,
+        description: '废旧光伏硅片银浆湿法提纯回收、储能电池梯次利用流转、建筑保温岩棉固废合规处置。',
+        startYear: 25,
+        endYear: 25,
+      },
+    },
+    domainParams: [
+      { label: '改造建筑面积', value: '32万', unit: '㎡' },
+      { label: '年节约电能', value: '4100万', unit: 'kWh/年' },
+      { label: '年均减少碳排', value: '2.8万', unit: '吨CO₂/年' },
+      { label: '折现静态/动态回收期', value: '6.4', unit: '年' },
+    ],
+    caseInsights: {
+      capexOpexTradeoff: '相较于基准传统维修改造方案，多付出了 4.2 亿元的绿色节能 CAPEX，但每年节约运营电费与碳税超过 1.06 亿元，折现后 25 年累计净现值节省高达 7.8 亿元。',
+      discountSensitivityComment: '运营节能发生在漫长的 25 年中，折现率越低（如绿色金融低息贷款 3.5%），节能带来的净现值收益被放大得越多。',
+      hiddenTrapWarning: '忽视光伏逆变器与储能电芯在第 10 年必须整体更换的硬件投资，若漏算此项大修成本，项目净收益会被高估约 18%。',
+      decisionRecommendation: '建议申报地方低碳绿色专项补贴与绿色金融绿色信贷（利率下浮 50~100 BP），可将动态投资回收期从 6.4 年缩短至 4.8 年。',
+    },
+  },
+];

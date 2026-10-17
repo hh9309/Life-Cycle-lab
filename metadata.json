@@ -1,0 +1,6 @@
+{
+  "name": "系统全生命周期成本实验室 (LCCA Lab)",
+  "description": "系统全生命周期成本(LCCA)工程经济学实验室：涵盖CAPEX/OPEX/MAINT/DEC六阶段建模、动态NPV与资金时间价值折现、敏感性龙卷风图、六大实战案例、NumPy Financial代码引擎与AI智能诊断随诊。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
